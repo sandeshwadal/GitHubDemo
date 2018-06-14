@@ -38,9 +38,10 @@ export const styles = StyleSheet.create({
   },
   searchBarContainerStyle: {
     flexDirection: 'row',
-    height: 80,
+    height: 100,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    backgroundColor:'white'
   },
   searchBarTextInputStyle: {
     height: 40,

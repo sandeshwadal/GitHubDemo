@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   Image
 } from 'react-native'
+import ActionSheet from 'react-native-actionsheet'
+
 import { URL } from '../../Constants/Url'
 import LoadingIndicator from '../../CommonComponents/LoadingIndicator'
 import MyListItem from '../../CommonComponents/ListItem'
@@ -58,7 +60,6 @@ export class Home extends Component {
   renderItem = ({ item }) => (
     <MyListItem
       id={item.id}
-      onPressItem={this._onPressItem}
       name={item.login}
       score={item.score}
       avatar_url={item.avatar_url}
@@ -69,12 +70,14 @@ export class Home extends Component {
     return (
       <View style={styles.searchBarContainerStyle}>
         <TextInput
+        ref='serachBarInput'
           style={styles.searchBarTextInputStyle}
           placeholder='search'
           onChangeText={text => this.setState({ searchText: text })}
           onSubmitEditing={() => this.onSubmitEditing()}
           value={this.state.searchText}
           returnKeyType='search'
+          autoFocus = {true}
         />
         <TouchableOpacity
           onPress={() =>
@@ -97,10 +100,11 @@ export class Home extends Component {
     return (
       <View style={styles.searchButtonConatainerViewStyle}>
         <TouchableOpacity
-          onPress={() =>
+          onPress={() => {
             this.setState({
               shouldShowSearchBar: true
             })}
+          }
           style={styles.searchButtonStyle}
         >
           <Image
@@ -117,6 +121,73 @@ export class Home extends Component {
         <Text>No data available</Text>
       </View>
     )
+  }
+  renderActionSheet(){
+    return(
+      <View>
+      <ActionSheet
+      ref={o => this.ActionSheet = o}
+          title={'Sort by ?'}
+          options={['Name [A-z]', 'Name [Z-A]', 'Accending Rank', 'Decending Rank','cancel']}
+          cancelButtonIndex={5}
+          onPress={(index) => { /* do something */ 
+          this.sortArray(index)
+          }}
+        />
+        </View>
+    )
+  }
+  sortArray(index){
+    switch (index) {
+      case 0:
+      let array = this.state.data;
+  array.sort(function(a,b){
+    return a.login.localeCompare(b.login);
+})
+  this.setState({
+    data:array
+  })      
+        break;
+      
+    case 1:{
+    let array = this.state.data;
+  array.sort(function(a,b){
+    return a.login.localeCompare(b.login);
+})
+array.reverse()
+  this.setState({
+    data:array
+  })   
+    }
+    break;
+
+    case 2:{
+      let arrayt = this.state.data;
+      arrayt.sort(function(a,b){
+        return (a.score - b.score);
+    })
+      this.setState({
+        data:arrayt
+      })   
+    }
+    break;
+    case 3: {
+      let arrayt = this.state.data;
+      arrayt.sort(function(a,b){
+        return (b.score - a.score);
+    })
+      this.setState({
+        data:arrayt
+      })   
+    }
+     break;
+
+      default:
+        break;
+    }
+  }
+  showActionSheet = () => {
+    this.ActionSheet.show()
   }
   render () {
     return (
@@ -138,13 +209,12 @@ export class Home extends Component {
           }}
         >
           <TouchableOpacity
-            onPress={() =>
-              this.setState({
-                shouldShowSearchBar: true
-              })}
+            onPress={() => {this.showActionSheet()
+            
+            }}
           >
             <Text>Sort by</Text>
-
+{this.renderActionSheet()}
           </TouchableOpacity>
         </View>
         <View>
