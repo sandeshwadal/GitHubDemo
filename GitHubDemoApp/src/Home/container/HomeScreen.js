@@ -128,7 +128,7 @@ export class Home extends Component {
       <ActionSheet
       ref={o => this.ActionSheet = o}
           title={'Sort by ?'}
-          options={['Name [A-z]', 'Name [Z-A]', 'Accending Rank', 'Decending Rank','cancel']}
+          options={['Name [A-Z]', 'Name [Z-A]', 'Accending Rank', 'Decending Rank','cancel']}
           cancelButtonIndex={5}
           onPress={(index) => { /* do something */ 
           this.sortArray(index)

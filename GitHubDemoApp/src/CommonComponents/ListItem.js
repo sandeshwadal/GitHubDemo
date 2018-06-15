@@ -16,7 +16,7 @@ export default class MyListItem extends PureComponent {
     const score = this.props.score
     return (
       <View style={{ margin: 0, padding: 20, borderBottomWidth: 0.25,backgroundColor:'white' }}>
-        <TouchableOpacity onPress={this._onPress}>
+        <TouchableOpacity>
           <View style={{flexDirection:'row'}}>
             <Image
               style={{ width: 50, height: 50, borderRadius:25 }}
